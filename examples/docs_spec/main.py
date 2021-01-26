@@ -42,6 +42,7 @@ async def create_pet(request: web.Request, body: Dict) -> web.Response:
     some docs
     ---
     summary: Create a pet
+    operationId: createPet
     tags:
       - pets
     requestBody:
@@ -64,6 +65,11 @@ async def create_pet(request: web.Request, body: Dict) -> web.Response:
           application/json:
             schema:
               $ref: "#/components/schemas/Pet"
+        links:
+          GetPetById:
+            operationId: getPet
+            parameters:
+              pet_id: '$response.body#/id'
     """
     # or access to body via request['data']['body']
     pet = PET_FACTORY.create(body["name"], body.get("tag"))
@@ -75,6 +81,7 @@ async def get_one_pet(request: web.Request, pet_id: int) -> web.Response:
     """
     ---
     summary: Info for a specific pet
+    operationId: getPet
     tags:
       - pets
     parameters:
